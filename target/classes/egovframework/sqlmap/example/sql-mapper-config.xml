@@ -3,8 +3,9 @@
 
 <configuration>
     <typeAliases>
+		<typeAlias alias="user" type="com.jellymoly.server.service.User"/>
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
-		<typeAlias alias="sampleVO" type="egovframework.example.sample.service.SampleVO"/>
+		<typeAlias alias="searchVO" type="com.jellymoly.server.service.SampleDefaultVO"/>
+		<typeAlias alias="sampleVO" type="com.jellymoly.server.service.SampleVO"/>
     </typeAliases>
 </configuration>

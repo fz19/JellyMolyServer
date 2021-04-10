@@ -11,15 +11,39 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import egovframework.example.sample.service.EgovSampleService;
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import com.jellymoly.server.service.EgovSampleService;
+import com.jellymoly.server.service.SampleDefaultVO;
+import com.jellymoly.server.service.SampleVO;
+import com.jellymoly.server.service.User;
+import com.jellymoly.server.service.UserService;
+
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 @Controller
 public class MainController {
 	@Resource
 	private EgovSampleService service;
+	@Resource
+	private UserService userService;
+	
+	@RequestMapping(value="/user.do")
+	@ResponseBody
+	public String UserProfile(HttpServletRequest request, ModelMap model)
+	{
+		try {
+			long seq = 2;
+			
+			User user = userService.get(seq);
+			if (user == null)
+				return "null";
+			
+			return "OK:" + user.getName(); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	return "error";
+	}
 
     @RequestMapping(value="/hello.do")
     @ResponseBody

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jellymoly.server.service.impl.UserMapper">
+	<resultMap id="user" type="com.jellymoly.server.service.User">
+		<result property="seq" column="seq"/>
+		<result property="name" column="user_name"/>
+		<result property="profileImage" column="user_profile_image"/>
+		<result property="age" column="user_age"/>
+		<result property="sex" column="user_sex"/>
+		<result property="likeSound" column="user_like_sound"/>
+		<result property="jellyFrequency" column="user_jelly_frequency"/>
+		<result property="joinDate" column="user_join_date"/>
+	</resultMap>
+
+	<select id="selectUser" resultMap="user">
+
+			SELECT
+				*
+			FROM jm_user
+			WHERE seq=#{seq}
+
+	</select>
+</mapper>

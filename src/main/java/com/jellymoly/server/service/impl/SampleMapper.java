@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.example.sample.service.impl;
+package com.jellymoly.server.service.impl;
 
 import java.util.List;
 
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import com.jellymoly.server.service.SampleDefaultVO;
+import com.jellymoly.server.service.SampleVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -50,7 +50,7 @@ public interface SampleMapper {
 
 	/**
 	 * 글을 수정한다.
-	 * @param vo - 수정할 정보가 담긴 SampleVO
+	 * @param vo - 수정할 정보가 담긴 SampleVOs
 	 * @return void형
 	 * @exception Exception
 	 */

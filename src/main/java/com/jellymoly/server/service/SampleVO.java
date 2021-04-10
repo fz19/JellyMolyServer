@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.example.sample.service;
+package com.jellymoly.server.service;
 
 /**
  * @Class Name : SampleVO.java
