@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jellymoly.server.service.impl.ContentMapper">
+	<resultMap id="content" type="com.jellymoly.server.service.ContentVO">
+		<result property="seq" column="seq"/>
+		<result property="userSeq" column="user_seq"/>
+		<result property="category" column="content_category"/>
+		<result property="image" column="content_image"/>
+		<result property="media" column="content_media"/>
+		<result property="subject" column="content_subject"/>
+		<result property="text" column="content_text"/>
+		<result property="level" column="content_level"/>
+		<result property="used" column="content_used"/>
+		<result property="environment" column="content_environment"/>
+		<result property="price" column="content_price"/>
+		<result property="date" column="content_date"/>
+		<result property="hit" column="content_hit"/>
+	</resultMap>
+
+	<select id="selectList" parameterType="ListFilterVO" resultMap="content">
+
+			SELECT
+				*
+			FROM jm_content
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	user_seq LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	category LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+			ORDER BY seq ASC
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+
+	</select>
+
+	<select id="selectListCount" parameterType="ListFilterVO" resultType="int">
+
+			SELECT
+				COUNT(*)
+			FROM jm_content
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	user_seq LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	category LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+
+	</select>
+	
+	
+</mapper>

@@ -1,5 +1,7 @@
 package com.jellymoly.server.service;
 
 public interface UserService {
-	User get(long seq) throws Exception;
+	UserVO get(long seq) throws Exception;
+
+	void add(UserVO user) throws Exception;
 }

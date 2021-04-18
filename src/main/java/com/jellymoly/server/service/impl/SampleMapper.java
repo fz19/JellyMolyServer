@@ -17,7 +17,7 @@ package com.jellymoly.server.service.impl;
 
 import java.util.List;
 
-import com.jellymoly.server.service.SampleDefaultVO;
+import com.jellymoly.server.service.ListFilterVO;
 import com.jellymoly.server.service.SampleVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -78,7 +78,7 @@ public interface SampleMapper {
 	 * @return 글 목록
 	 * @exception Exception
 	 */
-	List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception;
+	List<?> selectSampleList(ListFilterVO searchVO) throws Exception;
 
 	/**
 	 * 글 총 갯수를 조회한다.
@@ -86,6 +86,6 @@ public interface SampleMapper {
 	 * @return 글 총 갯수
 	 * @exception
 	 */
-	int selectSampleListTotCnt(SampleDefaultVO searchVO);
+	int selectSampleListTotCnt(ListFilterVO searchVO);
 
 }

@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.jellymoly.server.service.EgovSampleService;
-import com.jellymoly.server.service.SampleDefaultVO;
+import com.jellymoly.server.service.ListFilterVO;
 import com.jellymoly.server.service.SampleVO;
 
 /**
@@ -123,7 +123,7 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * @exception Exception
 	 */
 	@Override
-	public List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception {
+	public List<?> selectSampleList(ListFilterVO searchVO) throws Exception {
 		return sampleDAO.selectSampleList(searchVO);
 	}
 
@@ -134,7 +134,7 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * @exception
 	 */
 	@Override
-	public int selectSampleListTotCnt(SampleDefaultVO searchVO) {
+	public int selectSampleListTotCnt(ListFilterVO searchVO) {
 		return sampleDAO.selectSampleListTotCnt(searchVO);
 	}
 

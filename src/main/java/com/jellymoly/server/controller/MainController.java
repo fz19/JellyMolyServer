@@ -5,19 +5,24 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jellymoly.server.service.ContentService;
+import com.jellymoly.server.service.ContentVO;
 import com.jellymoly.server.service.EgovSampleService;
-import com.jellymoly.server.service.SampleDefaultVO;
-import com.jellymoly.server.service.SampleVO;
-import com.jellymoly.server.service.User;
-import com.jellymoly.server.service.UserService;
+import com.jellymoly.server.service.ListFilterVO;
+import com.jellymoly.server.service.UserVO;
 
-import egovframework.rte.psl.dataaccess.util.EgovMap;
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
+
+import com.jellymoly.server.service.UserService;
 
 @Controller
 public class MainController {
@@ -25,63 +30,86 @@ public class MainController {
 	private EgovSampleService service;
 	@Resource
 	private UserService userService;
+	@Resource
+	private ContentService contentService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 	
-	@RequestMapping(value="/user.do")
+	@RequestMapping(value="/user.do", produces="application/json;charset=UTF-8")
 	@ResponseBody
-	public String UserProfile(HttpServletRequest request, ModelMap model)
+	public String UserProfile(@RequestParam("no") long seq)
 	{
+		JSONObject response = new JSONObject();
+		response.put("code", 9999);
+		response.put("message", "오류가 발생했습니다.");
 		try {
-			long seq = 2;
-			
-			User user = userService.get(seq);
-			if (user == null)
-				return "null";
-			
-			return "OK:" + user.getName(); 
+			UserVO user = userService.get(seq);
+
+			response.put("user", new JSONObject(user));
+			response.put("code", 0);
+			response.put("message", "");
+		} catch (EgovBizException e) {
+			e.printStackTrace();
+			response.put("code", 800);
+			response.put("message", e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	
-    	return "error";
+
+    	return response.toString();
 	}
-
-    @RequestMapping(value="/hello.do")
-    @ResponseBody
-    public String HelloPage(HttpServletRequest request, ModelMap model)
-    {
-    	try {
-    		SampleDefaultVO filter = new SampleDefaultVO();
-			List<SampleVO> list = (List<SampleVO>) service.selectSampleList(filter);
-	    	return String.valueOf( list.size() );
+	
+	@RequestMapping(value="/newUser.do", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String NewUser(UserVO user)
+	{
+		JSONObject response = new JSONObject();
+		response.put("code", 9999);
+		response.put("message", "오류가 발생했습니다.");
+		
+		try {
+			userService.add(user);
+			
+			response.put("code", 0);
+			response.put("message", "");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	return "error";
-    }
 
-    @RequestMapping(value="/list.do")
-    @ResponseBody
-    public String ListPage(HttpServletRequest request, ModelMap model)
-    {
-    	try {
-    		SampleDefaultVO filter = new SampleDefaultVO();
-			List<EgovMap> list = (List<EgovMap>) service.selectSampleList(filter);
-
-			StringBuffer sb = new StringBuffer();
-			for (EgovMap row : list) {
-				sb.append(row.toString());
-				sb.append("<br />");
+    	return response.toString();
+	}
+	
+	@RequestMapping(value="/contentList.do", produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String ContentList(HttpServletRequest request)
+	{
+		JSONObject response = new JSONObject();
+		response.put("code", 9999);
+		response.put("message", "오류가 발생했습니다.");
+		
+		try {
+			ListFilterVO filter = new ListFilterVO();
+			
+			if (request.getParameter("page") != null)
+				filter.setPageIndex( Integer.parseInt(request.getParameter("page")) );
+			
+			int count = contentService.selectListCount(filter);
+			List<ContentVO> list = (List<ContentVO>) contentService.selectList(filter);
+			
+			JSONArray json_list = new JSONArray();
+			for (ContentVO row : list) {
+				json_list.put(new JSONObject(row));
 			}
 			
-	    	return String.valueOf( sb.toString() );
+			response.put("count", count);
+			response.put("list", json_list);
+			response.put("code", 0);
+			response.put("message", "");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
-    	return "error";
-    }
+    	return response.toString();
+	}
     
 }

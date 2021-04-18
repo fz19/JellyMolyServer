@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jellymoly.server.service.impl.UserMapper">
-	<resultMap id="user" type="com.jellymoly.server.service.User">
+	<resultMap id="user" type="com.jellymoly.server.service.UserVO">
 		<result property="seq" column="seq"/>
 		<result property="name" column="user_name"/>
 		<result property="profileImage" column="user_profile_image"/>
@@ -20,4 +20,24 @@
 			WHERE seq=#{seq}
 
 	</select>
+	
+
+	<insert id="insert" parameterType="UserVO">
+
+			INSERT INTO jm_user
+				(user_name
+				  , user_age
+				  , user_sex
+				  , user_like_sound
+				  , user_jelly_frequency
+				  , user_join_date )
+			VALUES ( #{name}
+				  , #{age}
+				  , #{sex}
+				  , #{likeSound}
+				  , #{jellyFrequency}
+				  , NOW() )
+
+	</insert>
+	
 </mapper>

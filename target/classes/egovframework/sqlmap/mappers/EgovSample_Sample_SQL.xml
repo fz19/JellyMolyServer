@@ -53,7 +53,7 @@
 
 	</select>
 
-	<select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
+	<select id="selectSampleList" parameterType="ListFilterVO" resultType="egovMap">
 
 			SELECT
 				ID, NAME, DESCRIPTION, USE_YN, REG_USER
@@ -73,7 +73,7 @@
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 
-	<select id="selectSampleListTotCnt" parameterType="searchVO" resultType="int">
+	<select id="selectSampleListTotCnt" parameterType="ListFilterVO" resultType="int">
 
 			SELECT COUNT(*) totcnt
 			FROM SAMPLE
